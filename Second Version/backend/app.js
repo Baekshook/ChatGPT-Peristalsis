@@ -11,6 +11,10 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Hello, Express!");
+});
+
 app.post("/chat", async (req, res) => {
   try {
     const { content } = req.body;
@@ -40,11 +44,10 @@ app.post("/chat", async (req, res) => {
       }
     );
 
-    console.log(response.data.choices[0].message.content);
-
-    res.send("임시");
+    res.json({ ok: true, result: response.data.choices[0].message.content });
   } catch (error) {
     console.error(error);
+    res.json({ ok: false, error });
   }
 });
 
