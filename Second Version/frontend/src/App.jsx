@@ -1,5 +1,6 @@
-import { useState } from "react";
 import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
 
 function App() {
   const [content, setContent] = useState("");
@@ -15,25 +16,24 @@ function App() {
       setIsLoading(true);
 
       const response = await axios.post(
-        "https://api.openai.com/v1/chat/completions",
+        `${process.env.REACT_APP_BACKEND_URL}/chat`,
         {
-          model: "gpt-3.5-turbo",
-          messages: [{ role: "user", content }],
+          content,
         },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.REACT_APP_OPENAI_KEY}`,
+            Authorization: `Bearer ${process.env.REACT_APP_SECRET_KEY}`,
           },
         }
       );
-
-      setResult(response.data.choices[0].message.content);
-
+      setResult(response.data.result);
       setIsLoading(false);
       setContent("");
     } catch (error) {
       console.error(error);
+
+      setIsLoading(false);
     }
   };
 
@@ -51,7 +51,7 @@ function App() {
         />
         <input
           className={`w-24 ml-4 px-2 py-1 border-2 border-main text-main rounded-lg shadow-lg ${
-            isLoading && "bg-main text-gray-200"
+            isLoading && "bg-main text-white"
           }`}
           type="submit"
           disabled={isLoading}
