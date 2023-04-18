@@ -4,10 +4,15 @@ import { useState } from "react";
 function App() {
   const [content, setContent] = useState("");
   const [result, setResult] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmitChat = async (e) => {
     try {
       e.preventDefault();
+
+      if (!content) return;
+
+      setIsLoading(true);
 
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
@@ -24,6 +29,9 @@ function App() {
       );
 
       setResult(response.data.choices[0].message.content);
+
+      setIsLoading(false);
+      setContent("");
     } catch (error) {
       console.error(error);
     }
@@ -39,10 +47,12 @@ function App() {
           onChange={(e) => {
             setContent(e.target.value);
           }}
+          disabled={isLoading}
         />
         <input
           className="ml-4 px-2 py-1 border-2 border-main text-main rounded-lg shadow-lg"
           type="submit"
+          disabled={isLoading}
         />
       </form>
       {result && <div className="mt-16 bg-main p-4 text-gray-50">{result}</div>}
