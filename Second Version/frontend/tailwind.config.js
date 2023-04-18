@@ -7,6 +7,9 @@ module.exports = {
         main: "#C44FEB",
       },
     },
+    animation: {
+      "spin-slow": "spin 5s linear infinite",
+    },
   },
   plugins: [],
 };
