@@ -3,6 +3,7 @@ import { useState } from "react";
 
 function App() {
   const [content, setContent] = useState("");
+  const [result, setResult] = useState("");
 
   const onSubmitChat = async (e) => {
     try {
@@ -22,7 +23,7 @@ function App() {
         }
       );
 
-      console.log(response);
+      setResult(response.data.choices[0].message.content);
     } catch (error) {
       console.error(error);
     }
@@ -44,12 +45,7 @@ function App() {
           type="submit"
         />
       </form>
-      <div className="mt-16 bg-main p-4 text-gray-50">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Totam,
-        doloremque iusto animi magnam modi consequatur molestias adipisci
-        repellat sint autem nulla, distinctio itaque fugiat eligendi dignissimos
-        rem veritatis, quod nihil.
-      </div>
+      {result && <div className="mt-16 bg-main p-4 text-gray-50">{result}</div>}
     </div>
   );
 }
