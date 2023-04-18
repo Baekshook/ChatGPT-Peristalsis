@@ -12,13 +12,10 @@ app.use(express.json());
 
 app.post("/chat", async (req, res) => {
   try {
-    if (req.headers.authorization === undefined) {
-      return res.send("에러");
-    }
-    console.log(req.headers.authorization.substring(7));
+    console.log(req.headers.authorization?.substring(7));
     console.log(process.env.SECRET_KEY);
     console.log(
-      req.headers.authorization.substring(7) === process.env.SECRET_KEY
+      req.headers.authorization?.substring(7) === process.env.SECRET_KEY
     );
 
     res.send("임시");
